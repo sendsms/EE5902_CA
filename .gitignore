@@ -1,2 +1,4 @@
 venv/
 .idea/
+test_tasks.py
+__pycache__/

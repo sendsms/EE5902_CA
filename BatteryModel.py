@@ -1,10 +1,5 @@
 import math
 
-# Total there will be n tasks.
-# Current of task k is Ik
-# Start time of task k is tk
-# Duration of task k is Delta k
-
 class Battery:
     """
     High level analytical model of Rakhmatov and Vrudhula's charge sensitive model.
@@ -14,30 +9,34 @@ class Battery:
         i(t)      - Load on battery
         L         - Battery life time
     """
-    def __init__(self, current, observation_time, start_time, finish_time, recovery_rate):
+    def __init__(self):
         self.capacity = 40375
-        self.observation_time = observation_time
-        self.current = current
-        self.start_time = start_time
-        self.finish_time = finish_time
         self.recovery_rate = 0.273
         self.m = 10
+        self.total_consumption = 0
 
-    def consume(self, current):
-        self.current = current
+    def task_cost(self, B, tk, duration, current):
+        """
+
+        :param B: Task observation time
+        :param tk: Task start time
+        :param duration: Duration of the task until finish
+        :param current: Current for the task
+        :return:
+        """
+        finish_time = tk + duration
         temp = []
         for m in range(1, self.m + 1):
             term1 = math.pow(self.recovery_rate, 2) * math.pow(self.m, 2)
-            term2 = (math.exp(-term1 * (self.observation_time - self.finish_time)) - math.exp(-term1 * (self.observation_time - self.start_time))) / term1
+            term2 = (math.exp(-term1 * (B - finish_time)) - math.exp(-term1 * (B - tk))) / term1
             temp.append(term2)
 
-        return self.current * self.duration + self.current * 2 * math.fsum(temp)
+        return current * duration + current * 2 * math.fsum(temp)
 
-    def run_tasks(self, tasks):
-        
-
-
-tasks = {1: [7, 18, 650],
-         2: [5, 10, 800],
-         3: [8, 26, 400],
-         4: [10, 38, 380]}
+    def k_tasks(self, observation_time: int, tasks: dict, tasks_order: list):
+        for task in tasks_order:
+            self.total_consumption += self.task_cost(observation_time, \
+                                                     tasks[task]["start_time"], \
+                                                     tasks[task]["duration"], \
+                                                     tasks[task]["current"])
+        return self.total_consumption

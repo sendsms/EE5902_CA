@@ -20,23 +20,24 @@ class Tasks:
 
 
 class task:
-    def __init__(self, duration, deadline, current):
+    def __init__(self, name, duration, deadline, current):
+        self.name = name
         self.duration = duration
         self.deadline = deadline
         self.current = current
         self.starttime = 0
         self.finishtime = self.starttime + self.duration
+        self.slack = self.deadline - self.finishtime
+        self.voltage_sets = {5: 3.3, 4: 3.0, 3: 2.7, 2: 2.5, 1: 2.0}
+        self.voltage_level = 5
+        self.voltage = self.voltage_sets[self.voltage_level]
 
     def update_starttime(self, starttime):
         self.starttime = starttime
         self.finishtime = self.starttime + self.duration
+        self.slack = self.deadline - self.finishtime
 
     def CalDuration(self, Vdd, Vdd_new):
-        voltage_sets = set([3.3, 3.0, 2.7, 2.5, 2.0])
-
-        assert Vdd in voltage_sets
-        assert Vdd_new in voltage_sets
-
         Vth = 0.4
         s = Vdd / Vdd_new
         I_new = self.current / math.pow(s, 3)
@@ -44,9 +45,20 @@ class task:
 
         return I_new, Duration_new
 
-    def ScaleVoltage(self, voltage_old, voltage_new):
-        self.current, self.duration = self.CalDuration(voltage_old, voltage_new)
+    def ScaleVoltage(self, voltage_new):
+        self.current, self.duration = self.CalDuration(self.voltage, voltage_new)
         self.finishtime = self.starttime + self.duration
+        self.slack = self.deadline - self.finishtime
+
+    def ScaleDown1(self):
+        self.voltage_level -= 1
+        new_voltage = self.voltage_sets[self.voltage_level]
+        self.ScaleVoltage(new_voltage)
+        self.voltage = new_voltage
+
 
     def get_property(self):
         return self.starttime, self.duration, self.current
+
+    def __repr__(self):
+        return f'Task({self.name})'

@@ -22,16 +22,29 @@ class Tasks:
         x1 = []
         x2 = []
         y = []
+        task_name = []
+        slack = []
         plt.figure(1)
         for t in self.task_lists:
             x1.append(t.starttime)
             x2.append(t.duration)
             y.append(t.current)
+            task_name.append(t.name)
+            slack.append(t.slack)
             plt.text(t.starttime + t.duration/2, t.current/2, t.name)
+        plt.subplot(2, 1, 1)
         plt.bar(x1, y, x2, align='edge', color='w', edgecolor='k')
         plt.xlabel('t (min)')
         plt.ylabel('I (mA)')
         plt.title(r'$\mu_{%d} = %d mA.min,\ \mu_\infty = %d mA.min$' % (time[0], consumption[0], consumption[1]))
+
+        plt.subplot(2, 1, 2)
+        plt.plot(task_name, slack, 'o')
+        plt.xlabel('tasks')
+        plt.ylabel('t (min)')
+        plt.title('Task slack time')
+
+        plt.tight_layout()
         plt.show()
 
 

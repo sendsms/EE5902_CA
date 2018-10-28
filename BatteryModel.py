@@ -18,13 +18,16 @@ class Battery:
         self.total_consumption = 0
 
     def tasks_consumption(self, observation: int, tasks: object):
+        consumption = 0
         for task in tasks.task_lists:
             start_time, duration, current = task.get_property()
-            self.total_consumption += self.task_cost(observation, \
+            consumption += self.task_cost(observation, \
                                                      start_time, \
                                                      duration, \
                                                      current)
-        return self.total_consumption
+        self.total_consumption += consumption
+        assert self.total_consumption <= self.capacity
+        return consumption
 
     def task_cost(self, observation, tk, duration, current):
         """

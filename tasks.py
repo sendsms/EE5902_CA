@@ -1,5 +1,5 @@
 import math
-
+import matplotlib.pyplot as plt
 
 class Tasks:
     def __init__(self):
@@ -17,6 +17,23 @@ class Tasks:
 
     def __repr__(self):
         return f'Tasks({self.task_lists})'
+
+    def plot(self, time=[], consumption=[]):
+        x1 = []
+        x2 = []
+        y = []
+        plt.figure(1)
+        for t in self.task_lists:
+            x1.append(t.starttime)
+            x2.append(t.duration)
+            y.append(t.current)
+            plt.text(t.starttime + t.duration/2, t.current/2, t.name)
+        plt.bar(x1, y, x2, align='edge', color='w', edgecolor='k')
+        plt.xlabel('t (min)')
+        plt.ylabel('I (mA)')
+        plt.title(r'$\mu_{%d} = %d mA.min,\ \mu_\infty = %d mA.min$' % (time[0], consumption[0], consumption[1]))
+        plt.show()
+
 
 
 class task:

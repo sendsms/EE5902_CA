@@ -35,3 +35,35 @@ Equation is given to calculate the duration and current after voltage been scale
 | 3      | 8              | 26             | 400          |
 | 4      | 10             | 38             | 380          |
 
+
+
+Evaluation matrices:
+
+1. Charge used
+2. Task size
+3. Slack time
+
+
+
+Algorithm 1 - SNOPS:
+
+Slack-nibbling overall planning strategy (SNOPS) algorithm iteratively nibbles slacks for appropriate tasks selected by an overall planning dynamic priority function to perform DVS until the slack is exhausted and an optimum voltage setting is obtained. 
+
+In battery aware task scheduling (BTS), it is carried out by two consecutive steps: pre-scheduling (task sorting), and DVS.  
+
+Step 1: Prescheduling. All tasks in the initial set are sorted by an original scheduling algorithm which attempts to figure out a feasible schedule with plenty of slacks. 
+
+- [x] EDF algorithm
+
+- [x] Trying to generate a nonincreasing order of loads (greedy approach).
+
+- [x] Ensure no failure. In case failure downscale the voltage of the failing task by the minimum amount. 
+
+Step 2: Voltage scaling. Selected tasks in the schedule are submitted to DVS module for evaluation of distributable slacks; approved ones earn the opportunity for scaling by turns until slack depletion; an optimum BTS voltage setting is therefore obtained. Repeatedly use the available slack time by scaling down speeds of tasks to achieve the most effective decrease of the cost with respect to the discrete voltage downscaling effectiveness measure. 
+
+
+
+Slack utilization strategy. 
+
+The candidate pool accommodates tasks with available slack; the task selection scheme includes a DVS decision algorithm and a task selection algorithm, determining scaling direction and applicable target. 
+

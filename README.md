@@ -50,7 +50,7 @@ Equation is given to calculate the duration and current after voltage been scale
 
 ##### First plot: EDF
 
-![Figure_1](/home/wangjun/Figure_1.png)
+![Figure_1](./figures/Figure_1.png)
 
 
 

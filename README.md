@@ -1,7 +1,10 @@
 # EE5902_CA
-#### EE5902_CA Battery Aware Scheduling
+### EE5902_CA Battery Aware Scheduling
 
-TODOs:
+---
+
+#### TODOs:
+
 - [x] Create task object. Task object should contain start time, current, duration
   - Task object having update_starttime method used for schedule runtime
   - Task object having calculate duration method to obtain new current, new duration after voltage scaling
@@ -12,9 +15,9 @@ TODOs:
   * Method tasks_consumption - Given tasks and observation time to calculate total battery consumed in mA.min
 - [ ] Scheduler object. Scheduler should operate on tasks object. Schedule tasks based on algorithm before pass to battery for calculating cost. 
 
+---
 
-
-
+#### Battery Model
 
 Battery model is using Rakhmatov and Vrudhula's charge sensitive model. Cost function is based on the model equation. In order to calculate the total current consumption, we need to know the *observation time*, *task start time*, *task duration*, and *task current*. 
 
@@ -26,7 +29,7 @@ Equation is given to calculate the duration and current after voltage been scale
 
 
 
-##### Task Sets:
+#### Task Sets:
 
 | Task # | Duration (min) | Deadline (min) | Current (mA) |
 | ------ | -------------- | -------------- | ------------ |
@@ -37,7 +40,7 @@ Equation is given to calculate the duration and current after voltage been scale
 
 
 
-Evaluation matrices:
+#### Evaluation matrices:
 
 1. Charge used
 2. Task size
@@ -45,11 +48,21 @@ Evaluation matrices:
 
 
 
-Algorithm 1 - SNOPS:
+##### First plot: EDF
+
+![Figure_1](/home/wangjun/Figure_1.png)
+
+
+
+#### Algorithms
+
+##### 1. SNOPS:
 
 Slack-nibbling overall planning strategy (SNOPS) algorithm iteratively nibbles slacks for appropriate tasks selected by an overall planning dynamic priority function to perform DVS until the slack is exhausted and an optimum voltage setting is obtained. 
 
 In battery aware task scheduling (BTS), it is carried out by two consecutive steps: pre-scheduling (task sorting), and DVS.  
+
+
 
 Step 1: Prescheduling. All tasks in the initial set are sorted by an original scheduling algorithm which attempts to figure out a feasible schedule with plenty of slacks. 
 

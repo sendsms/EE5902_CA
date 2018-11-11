@@ -16,6 +16,8 @@ class Battery:
         self.recovery_rate = 0.273
         self.m = 10
         self.total_consumption = 0
+        self.battery_failed = False
+        self.failed_task = None
 
     def tasks_consumption(self, observation: int, tasks: object):
         consumption = 0
@@ -25,8 +27,11 @@ class Battery:
                                                      start_time, \
                                                      duration, \
                                                      current)
-        self.total_consumption += consumption
-        assert self.total_consumption <= self.capacity
+            if consumption >= self.capacity:
+                self.failing_task = task
+                self.battery_failed = True
+        #self.total_consumption += consumption
+        #assert self.total_consumption <= self.capacity
         return consumption
 
     def task_cost(self, observation, tk, duration, current):

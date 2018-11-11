@@ -72,11 +72,25 @@ Step 1: Prescheduling. All tasks in the initial set are sorted by an original sc
 
 - [x] Ensure no failure. In case failure downscale the voltage of the failing task by the minimum amount. 
 
+  \- Failing task means battery residual power equal or less than 0. 
+
 Step 2: Voltage scaling. Selected tasks in the schedule are submitted to DVS module for evaluation of distributable slacks; approved ones earn the opportunity for scaling by turns until slack depletion; an optimum BTS voltage setting is therefore obtained. Repeatedly use the available slack time by scaling down speeds of tasks to achieve the most effective decrease of the cost with respect to the discrete voltage downscaling effectiveness measure. 
-
-
 
 Slack utilization strategy. 
 
 The candidate pool accommodates tasks with available slack; the task selection scheme includes a DVS decision algorithm and a task selection algorithm, determining scaling direction and applicable target. 
+
+\- Select task from tasks pool
+
+\- Calculate slack demand (The highest slack)
+
+\- Scale down the task voltage 
+
+\- If slack not available, remove task from candidate pool 
+
+\- Pool empty? Calculate consumption and end.  
+
+
+
+##### 2. Static Task Scheduling Based on Greedy Heuristics
 

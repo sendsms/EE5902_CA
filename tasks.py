@@ -15,6 +15,13 @@ class Tasks:
             t.update_starttime(current_time)
             current_time = t.finishtime
 
+    def check_scheduable(self):
+        scheduable = True
+        for t in self.task_lists:
+            if not t.scheduable():
+                scheduable = False
+        return scheduable
+
     def __repr__(self):
         return f'Tasks({self.task_lists})'
 
@@ -62,6 +69,9 @@ class task:
         self.voltage_level = 5
         self.voltage = self.voltage_sets[self.voltage_level]
 
+    def scheduable(self):
+        return self.deadline >= self.finishtime
+
     def update_starttime(self, starttime):
         self.starttime = starttime
         self.finishtime = self.starttime + self.duration
@@ -79,9 +89,16 @@ class task:
         self.current, self.duration = self.CalDuration(self.voltage, voltage_new)
         self.finishtime = self.starttime + self.duration
         self.slack = self.deadline - self.finishtime
+        self.voltage = voltage_new
 
     def ScaleDown1(self):
         self.voltage_level -= 1
+        new_voltage = self.voltage_sets[self.voltage_level]
+        self.ScaleVoltage(new_voltage)
+        self.voltage = new_voltage
+
+    def ScaleUp1(self):
+        self.voltage_level += 1
         new_voltage = self.voltage_sets[self.voltage_level]
         self.ScaleVoltage(new_voltage)
         self.voltage = new_voltage
